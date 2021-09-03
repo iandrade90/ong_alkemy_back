@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
+const cors = require('cors');
+const Sliderouter = require('./routes/slide');
 require('dotenv').config()
 
 const indexRouter = require('./routes/index');
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/v01/', Sliderouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
