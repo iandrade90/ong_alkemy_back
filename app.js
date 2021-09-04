@@ -4,7 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const Sliderouter = require('./routes/slide');
+const Sliderouter = require('./routes/slideRoute');
 require('dotenv').config()
 
 const indexRouter = require('./routes/index');
@@ -39,8 +39,14 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  const code = err.code || 500;
+
+  const body = {
+    error: {code: code, message: err.message, data: err.data},
+  }
+
+  res.status(code).json(body);
+
 });
 
 module.exports = app;
