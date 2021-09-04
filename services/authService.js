@@ -39,7 +39,7 @@ const login = async (reqEmail, reqPassword) => {
 }
 
 const generateToken = (name, lastname, email, password) => {
-  return jwt.sign({ name, lastname, email, password}, "secret", { expiresIn: '1 day'});
+  return jwt.sign({name, lastname, email, password}, "secret", { expiresIn: '1 day'});
 };
 
 const validateToken = async token => {

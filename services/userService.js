@@ -15,5 +15,4 @@ const findByEmail = async email => {
 module.exports = {
   save,
   findByEmail,
-
 };
