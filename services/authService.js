@@ -1,6 +1,7 @@
 const userService = require("../services/userService");
-const brcypt = require ('bcrypt')
+const brcypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const config = require(__dirname + '/../config/config').development;
 
 const register = async user => {
   try {
@@ -36,12 +37,12 @@ const login = async (reqEmail, reqPassword) => {
 }
 
 const generateToken = (name, lastname, email, password) => {
-  return jwt.sign({name, lastname, email, password}, "secret", { expiresIn: '1 day'});
+  return jwt.sign({name, lastname, email, password},config.secret , { expiresIn: '1 day'});
 };
 
 const validateToken = async token => {
    try {
-     const { email } = jwt.verify(token, 'secret');
+     const { email } = jwt.verify(token, config.secret);
      
      return email
 
