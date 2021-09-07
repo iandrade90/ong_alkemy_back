@@ -16,10 +16,7 @@ const login = async (reqEmail, reqPassword) => {
     const user = await userService.findByEmail(reqEmail)
     const userPassword = user ? user.password : "";
     
-    // manera valida de comparar
-    // const validPassword = await brcypt.compare(password, userPassword)
-    //solo test 
-    const validPassword = reqPassword == userPassword ? true : false
+    const validPassword = await brcypt.compare(password, userPassword)
     if (!user || !validPassword) {
       throw new Error ("Authentication error. The email or password provided are invalid")
     }
