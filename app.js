@@ -11,6 +11,7 @@ const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const organizationRoutes = require('./routes/organizations')
 const { errorMonitor } = require("events");
+const Sliderouter = require('./routes/slideRoute')
 
 const app = express();
 app.use(cors());
@@ -25,10 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/v01/', Sliderouter)
-app.use("/", indexRouter);
+app.use('/api/v01', Sliderouter)
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use('/organizations', organizationRoutes)

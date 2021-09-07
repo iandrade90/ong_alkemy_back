@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const { errorHandler } = require('../error/index');
 
-exports.customValidationResult = (req, res, next) => {
+const customValidationResult = (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -10,3 +10,5 @@ exports.customValidationResult = (req, res, next) => {
 
     next();
 }
+
+module.exports = {customValidationResult}
