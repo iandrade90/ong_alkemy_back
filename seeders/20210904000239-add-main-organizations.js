@@ -12,8 +12,6 @@ module.exports = {
       phone: "11-6011-2988",
       address: "barrio La Cava",
       welcomeText: "Bienvenido a la pagina oficial de Somos Más",
-      createdAt: new Date,
-      updatedAt: new Date
       }], {});
   },
   down: async (queryInterface, Sequelize) => {
