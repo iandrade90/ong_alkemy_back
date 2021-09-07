@@ -3,6 +3,6 @@ const { getOrganizationData } = require('../controllers/organization');
 const router = express.Router()
 
 
-router.get('/1/public', getOrganizationData)
+router.get('/organizations/1/public', getOrganizationData)
 
 module.exports = router;
