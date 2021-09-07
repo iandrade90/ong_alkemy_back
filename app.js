@@ -27,10 +27,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 
-// app.use('/api/v01', Sliderouter)
-// app.use("/users", usersRouter);
-// app.use("/auth", authRouter);
-// app.use('/organizations', organizationRoutes)
 app.use('/api/v01/', [
   Sliderouter,
   usersRouter,

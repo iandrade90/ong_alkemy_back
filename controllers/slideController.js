@@ -1,4 +1,5 @@
 const { Slide } = require('../models');
+const {Organization} = require('../models');
 
 exports.getSlides = async function (req, res, next) {
     try {
