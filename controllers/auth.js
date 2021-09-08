@@ -9,7 +9,7 @@ const register = async (req, res, next) => {
 
   try {
     const userCreated = await authService.register(newUser);
-    res.status(200).json(userCreated);
+    res.status(201).json(userCreated);
   } catch (err) {
     next(err);
   }
@@ -24,13 +24,16 @@ const login = async (req, res, next) => {
       lastName,
       mail,
       image,
-      token } = await authService.login(email, password)
+      token,
+      roleId } = await authService.login(email, password)
     
-    res.status(200).header({Authorization: token}).json({
+    return res.status(200).json({
       firstName,
       lastName,
       mail,
-      image
+      isAdmin:roleId === 1,
+      image,
+      token
     })
   } catch (err) {
     next(err);
@@ -47,4 +50,4 @@ const getMyData = async (req, res) => {
   userData ? res.json(userData) : res.status(498).json("Invalid or Expired Token")
 }
 
-module.exports = { register, login, getMyData};
+module.exports = { register, login , getMyData };

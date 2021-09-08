@@ -16,19 +16,24 @@ const login = async (reqEmail, reqPassword) => {
   try {
     const user = await userService.findByEmail(reqEmail)
     const userPassword = user ? user.password : "";
-    
+
     const validPassword = await brcypt.compare(reqPassword, userPassword)
     if (!user || !validPassword) {
       throw new Error ("Authentication error. The email or password provided are invalid")
     }
-    const token = await generateToken(user.firstName, user.lastName, user.email, userPassword); //secreto en .env
+    const payload = {
+      id:user.id,
+      isAdmin:user.roleId === 1
+    }
+    const token = await generateToken(payload); //secreto en .env
   
     return {
       firstName: user.firstName,
       lastName :user.lastName,
       mail: user.email,
       image: user.image,
-      token: token
+      token: token,
+      roleId:user.roleId
     }
     
   } catch (err) {
@@ -36,8 +41,12 @@ const login = async (reqEmail, reqPassword) => {
   }
 }
 
-const generateToken = (name, lastname, email, password) => {
-  return jwt.sign({name, lastname, email, password},config.secret , { expiresIn: '1 day'});
+const generateToken = (payload) => {
+  return jwt.sign(
+    payload,
+    config.secret ,
+   { expiresIn: '1 day'}
+  );
 };
 
 const validateToken = async token => {
