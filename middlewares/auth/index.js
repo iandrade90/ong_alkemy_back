@@ -2,6 +2,22 @@ const { check, validationResult } = require("express-validator");
 const userService = require("../../services/userService");
 
 
+const checkUser =async (req , res , next)=>{
+
+  const email = req.body.email;
+  const user = await userService.findByEmail(email);
+
+  if(user){
+    return res.status(404).json({
+      error:{
+        msg:"usuario ya existe"
+      }
+    })
+  }else{
+    next()
+  }
+
+}
 //? Funcion que se encarga de verificar que las validaciones se cumplan
 const checkValidations = (req, res, next) => {
   const errors = validationResult(req);
@@ -20,6 +36,7 @@ const checkValidations = (req, res, next) => {
   //? Si no hay errores, sigue el flujo al controlador
   next();
 };
+
 
 // prettier-ignore
 const _firstNameRequired = check( "firstName","Firstname is required").notEmpty();
@@ -45,6 +62,7 @@ const _validJWT = async (req, res, next) => {
 };
 
 const postRegisterValidations = [
+  checkUser,
   _firstNameRequired,
   _lastNameRequired,
   _emailRequired,
