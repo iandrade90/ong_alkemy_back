@@ -42,7 +42,7 @@ npm run dev
 |GET|_/slides_|**obtiene TODAS las slides**| ------------------
 |POST|_/slides/create_|**CREA un Slide a partir de datos**| imageUrl, text, order, organizationId en _req.body_
 |POST|_/auth/register_|**CREA un User a partir de datos**| firstName, lastName, email, password en _req.body_
-|POST|_/auth/login|**LOGEA un User y GENERA un Token a partir de datos** _(devuelve token en header)_| email, password en _req.body_
+|POST|_/auth/login_|**LOGEA un User y GENERA un Token a partir de datos** _(devuelve token en header)_| email, password en _req.body_
 |PUT|_/slides/update/:id_|**ACTUALIZA un Slide a partir de un id**| ID pasado como _parametro_ en URL. imageUrl, text, order, organizationId en _req.body_
 |DELETE|_/slides/delete/:id_|**ELIMINA un Slide a partir de un id**| ID pasado como _parametro_ en URL 
 
