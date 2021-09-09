@@ -11,7 +11,7 @@ const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const organizationRoutes = require('./routes/organizations')
 const { errorMonitor } = require("events");
-const Sliderouter = require('./routes/slideRoute')
+const slideRouter = require('./routes/slideRoute')
 
 const app = express();
 app.use(cors());
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 app.use('/api/v01/', [
-  Sliderouter,
+  slideRouter,
   usersRouter,
   authRouter,
   organizationRoutes
