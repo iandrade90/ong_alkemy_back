@@ -44,6 +44,7 @@ const _lastNameRequired = check("lastName", "Lastname is required").notEmpty();
 const _emailRequired = check("email", "Email is required").notEmpty();
 const _validEmail = check("email", "A valid email is required").isEmail();
 const _passwordRequired = check("password", "Password is required").notEmpty();
+
 const _emailIsNew = check("email").custom(async email => {
   const userFound = await userService.findByEmail(email);
   //? Si se encuentra un usuario con el mismo email, se lanza un error
