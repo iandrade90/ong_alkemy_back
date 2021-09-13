@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const config = require('../config').development;
+const config = require('../config/config').development;
 
 // config
 const s3 = new AWS.S3({
