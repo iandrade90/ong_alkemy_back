@@ -1,17 +1,16 @@
 const sgMail = require('@sendgrid/mail');
 
-const EmailSendgrid = async (email) => {
+const EmailSendgrid = async ({ email, subject, text, html }) => {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     config = {
         to: email,
-        from: 'leandro_colocdk@hotmail.com',
-        subject: "Test",
-        text: "Test",
-        html: "Test",
+        from: process.env.EMAIL_SENDGRID,
+        subject: subject,
+        text: text,
+        html: html,
     }
-    // Email del cual estará configurado sendgrid
-    // config.from = "leandro_colocdk@hotmail.com"
+
     return await sgMail.send(config);
 }
 module.exports = {
