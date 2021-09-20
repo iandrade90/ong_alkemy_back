@@ -1,12 +1,10 @@
 const { findOrganizationById } = require("../services/organizationsService")
 
 
-exports.findPublicOrganizations = (req, res, next) => {
+exports.findPublicOrganizations = async (req, res, next) => {
     const { id } = req.params
-    findOrganizationById(id)
-        .then(response => {
-            !!response ? res.status(200).json(response) :
-                res.status(404).json("No hay organizacion con ese ID")
-        })
-    .catch(error => next(error))
+
+    const organizationFound = await findOrganizationById(id)
+    !!organizationFound? res.status(200).json(response) : res.status(404).json("No hay organizacion con ese ID")
+
  }
