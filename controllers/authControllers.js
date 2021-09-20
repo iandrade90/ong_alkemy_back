@@ -27,11 +27,13 @@ const loginController = (req, res, next) => {
 
 const tokenController = (req, res, next) => {
   const { id } = decryptToken(req.token)
-  id && authService.finUserById(id)
+  id && authService.findUserById(id)
     .then(userFound => {
       userFound ? res.status(200).json(userFound) :
         forbiddenError(res)
     })
+  .catch(error => next(error))
+    
   
 }
 
