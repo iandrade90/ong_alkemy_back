@@ -1,34 +1,39 @@
-const authService = require("../services/authService");
-const bcrypt = require("bcrypt");
+const userService = require('../services/userService')
+const { generateToken } = require('../services/tokenService')
+const bcrypt = require('bcrypt')
 
-const login = (req, res, next) => {
-  const { email, password } = req.body;
-  const reqPassword = password;
-  authService
-    .findUserByEmail(email)
-    .then(response => {
-      const { email, password } = response;
-      bcrypt.compare(reqPassword, password).then(response => {
-        response
-          ? res.status(200).json({ email, password })
-          : res.status(401).json({ ok: false });
-      });
-    })
-    .catch(error => next(error));
-};
+const forbiddenError = (res) => {
+  return res.status(401).json({ ok: false })
+}
 
-const register = async (req, res, next) => {
+const loginController = (req, res, next) => {
+  const {email, password} = req.body
+  const reqPassword = password
+  authService.findUserByEmail(email)
+    .then(userFound => {
+      userFound ? bcrypt.compare(reqPassword, userFound.password)
+        .then(passwordMatch => {
+            passwordMatch ? res.status(200).json({
+              id: userFound.id,
+              email: userFound.email,
+              roleId: userFound.roleId,
+              token: generateToken(userFound)
+            })
+              : forbiddenError(res)
+     }) : forbiddenError(res);
+  })
+  .catch(error => next(error))
+}
+const registerController = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const newUser = { firstName, lastName, email, password };
-
   try {
-    const userCreated = await authService.register(newUser);
+    const userCreated = await userService.save(newUser);
     //* OP: el ticket especifica que se debe devolver el usuario creado, en un futuro esto debe cambiarse
     res.status(201).json(userCreated);
   } catch (error) {
-    //? El error catcheado es enviado al Error Handler para que sea manejado
     next(error);
   }
 };
 
-module.exports = { login, register };
+module.exports = {loginController, registerController}
