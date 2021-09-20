@@ -7,11 +7,8 @@ module.exports = {
         "database":  process.env.DB_NAME,
         "host": process.env.DB_HOST,
         "port": process.env.DB_PORT,
-        "secret": process.env.AUTH_SECRET,
-        "bucketname":process.env.AWS_BUKET_NAME,
-        "accessKeyId":process.env.AWS_ACCESS_KEY_ID,
-        "secretAccessKey":process.env.AWS_SECRET_ACCESS_KEY,
-        "dialect": "mysql"
+        "dialect": process.env.DIALECT,
+        "secret": process.env.AUTH_SECRET
     },
     "test": {
         "username": process.env.DB_USER,

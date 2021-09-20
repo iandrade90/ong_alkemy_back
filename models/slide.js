@@ -10,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // Slide.belongsTo(models.Organization);
-      
+      // define association here
     }
   };
   Slide.init({
