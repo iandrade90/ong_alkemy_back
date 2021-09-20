@@ -1,5 +1,5 @@
 const tokenExists = (req, res, next) => {
-    const token = req.header("Authorization")
+    const token = req.header("Authorization").split(" ")[1]
     if (token) {
         req.token = token
         next()

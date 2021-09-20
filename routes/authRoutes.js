@@ -6,8 +6,8 @@ const router = express.Router()
 
 
 
-router.post('/auth/login',loginValidations, loginController)
+router.post('/login', loginValidations, loginController)
 
-router.get('auth/me', tokenExists, tokenController)
+router.get('/me', tokenExists, tokenController)
 
 module.exports = router

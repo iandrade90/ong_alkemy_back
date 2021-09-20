@@ -1,5 +1,5 @@
 const authService = require('../services/authService')
-const { generateToken } = require('../services/tokenService')
+const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 
 const forbiddenError = (res) => {
@@ -26,7 +26,13 @@ const loginController = (req, res, next) => {
 }
 
 const tokenController = (req, res, next) => {
-
+  const { id } = decryptToken(req.token)
+  id && authService.finUserById(id)
+    .then(userFound => {
+      userFound ? res.status(200).json(userFound) :
+        forbiddenError(res)
+    })
+  
 }
 
 
