@@ -25,5 +25,12 @@ const loginController = (req, res, next) => {
   .catch(error => next(error))
 }
 
+const tokenController = (req, res, next) => {
 
-module.exports = {loginController}
+}
+
+
+module.exports = {
+  loginController,
+  tokenController
+}
