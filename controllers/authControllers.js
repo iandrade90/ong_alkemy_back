@@ -2,7 +2,7 @@ const authService = require('../services/authService')
 const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 
-const forbiddenError = (res) => {
+const forbiddenMsg = (res) => {
   return res.status(401).json({ ok: false })
 }
 
@@ -19,8 +19,8 @@ const loginController = (req, res, next) => {
               roleId: userFound.roleId,
               token: generateToken(userFound)
             })
-              : forbiddenError(res)
-     }) : forbiddenError(res);
+              : forbiddenMsg(res)
+     }) : forbiddenMsg(res);
   })
   .catch(error => next(error))
 }
