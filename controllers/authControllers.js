@@ -1,8 +1,9 @@
+const authService = require('../services/authService')
 const userService = require('../services/userService')
-const { generateToken } = require('../services/tokenService')
+const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 
-const forbiddenError = (res) => {
+const forbiddenMsg = (res) => {
   return res.status(401).json({ ok: false })
 }
 
@@ -19,8 +20,8 @@ const loginController = (req, res, next) => {
               roleId: userFound.roleId,
               token: generateToken(userFound)
             })
-              : forbiddenError(res)
-     }) : forbiddenError(res);
+              : forbiddenMsg(res)
+     }) : forbiddenMsg(res);
   })
   .catch(error => next(error))
 }
@@ -36,4 +37,21 @@ const registerController = async (req, res, next) => {
   }
 };
 
-module.exports = {loginController, registerController}
+const tokenController = (req, res, next) => {
+  const { id } = decryptToken(req.token)
+  id && authService.findUserById(id)
+    .then(userFound => {
+      userFound ? res.status(200).json(userFound) :
+        forbiddenError(res)
+    })
+  .catch(error => next(error))
+    
+  
+}
+
+
+module.exports = {
+  loginController,
+  tokenController,
+  registerController
+}

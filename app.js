@@ -6,14 +6,10 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-<<<<<<< HEAD
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-=======
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/usersRoutes');
 const authRouter = require('./routes/authRoutes')
->>>>>>> ec014c3c3b9894fdd4489298d37d7271814d1fb3
+const organizationRoutes = require('./routes/organizationsRoutes')
 
 const app = express();
 app.use(cors());
@@ -24,10 +20,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', [
-  indexRouter,
-  authRouter]);
-app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+app.use('/organizations', organizationRoutes)
+app.use('/users', usersRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -42,7 +38,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.json({
+    message: err.message,
+  });
 });
 
 module.exports = app;

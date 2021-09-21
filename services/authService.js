@@ -7,3 +7,6 @@ exports.findUserByEmail = email => {
     return authRepository.findByParams(entity, params)
 }
 
+exports.findUserById = id => {
+    return authRepository.findById(entity, id)
+}
