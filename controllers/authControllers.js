@@ -1,5 +1,5 @@
 const authService = require('../services/authService')
-const { generateToken } = require('../services/tokenService')
+const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 
 const forbiddenMsg = (res) => {
@@ -25,5 +25,20 @@ const loginController = (req, res, next) => {
   .catch(error => next(error))
 }
 
+const tokenController = (req, res, next) => {
+  const { id } = decryptToken(req.token)
+  id && authService.findUserById(id)
+    .then(userFound => {
+      userFound ? res.status(200).json(userFound) :
+        forbiddenError(res)
+    })
+  .catch(error => next(error))
+    
+  
+}
 
-module.exports = {loginController}
+
+module.exports = {
+  loginController,
+  tokenController
+}

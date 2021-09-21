@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {development} = require('../config/config')
+const config = require(__dirname + '/../config/config').development;
 
 exports.generateToken = authenticatedUser => {
     const { id, email, roleId } = authenticatedUser
@@ -7,6 +7,9 @@ exports.generateToken = authenticatedUser => {
         id,
         email,
         roleId,
-    }, development.secret,
+    }, config.secret,
     {expiresIn: '1 day'})
+}
+exports.decryptToken = token => {
+    return jwt.verify(token, config.secret)
 }
