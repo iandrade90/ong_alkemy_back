@@ -17,6 +17,13 @@
                 attributes:attr?.length ? attr : "" 
             });
         };
+
+        findAllByParams = async (entity, params, attr) => {
+            return await this.models[entity].findAll({
+                attributes:attr?.length ? attr : "",
+                where: params
+            });
+        }
     
         findById = async ( entity , id , attr ) => {
             return await this.models[entity].findByPk(id,{
