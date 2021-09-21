@@ -1,4 +1,5 @@
 const authService = require('../services/authService')
+const userService = require('../services/userService')
 const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 
@@ -24,6 +25,17 @@ const loginController = (req, res, next) => {
   })
   .catch(error => next(error))
 }
+const registerController = async (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
+  const newUser = { firstName, lastName, email, password };
+  try {
+    const userCreated = await userService.save(newUser);
+    //* OP: el ticket especifica que se debe devolver el usuario creado, en un futuro esto debe cambiarse
+    res.status(201).json(userCreated);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const tokenController = (req, res, next) => {
   const { id } = decryptToken(req.token)
@@ -40,5 +52,6 @@ const tokenController = (req, res, next) => {
 
 module.exports = {
   loginController,
-  tokenController
+  tokenController,
+  registerController
 }
