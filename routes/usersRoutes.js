@@ -1,9 +1,8 @@
 var express = require('express');
+const { deleteUser } = require('../controllers/userControllers');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.json({title:"user"});
-});
+router.delete('/:id', deleteUser)
 
 module.exports = router;

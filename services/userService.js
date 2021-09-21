@@ -1,18 +1,20 @@
+const Repository = require("../repositories");
+const userRepository = new Repository();
+const entity = "User";
+const bcrypt = require("bcrypt");
 
-const userRepository = require("../repositories/userRepository");
-const repository = new userRepository();
 
-const save = async user => {
-  return repository.save(user);
+exports.save = async userPayload => {
+  //? Password encryption
+  userPayload.password = await bcrypt.hash(userPayload.password, 10);
+
+  return await userRepository.createPayload(entity, userPayload);
 };
 
-const findByEmail = async email => {
-  return repository.findByEmail(email);
+exports.findByEmail = async email => {
+  return await userRepository.findByParams(entity, { email });
 };
 
-
-
-module.exports = {
-  save,
-  findByEmail,
+exports.deleteUserById = id => {
+  return userRepository.deleteById(entity, id);
 };
