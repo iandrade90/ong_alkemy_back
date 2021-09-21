@@ -1,34 +1,62 @@
-const AWS = require('aws-sdk');
-const config = require('../config/config').development;
+const config = require('../config/config').development
+var AWS = require('aws-sdk');
+// Set the region 
+// Create S3 service object
+const BUCKET = config.aws_bucket_name;
 
-// config
-const s3 = new AWS.S3({
-    accessKeyId: config.aws_access_key_id,
-    secretAccessKey: config.aws_secret_access_key
-});
+AWS.config.update({region: 'sa-east-1'});
 
-// Get file
-exports.getFile = async(file) => {        
-    return `https://${config.bucketname}.s3.amazonaws.com/ong-team-63/${file}`;
-}
+s3 = new AWS.S3({apiVersion: '2006-03-01',
+credentials:{
+    accessKeyId:config.aws_access_key_id,
+    secretAccessKey:config.aws_secret_access_key
+}});
 
-// Upload File
-exports.uploadFile = async(file) => {        
-    const params = {
-        Bucket: config.bucketname,
-        Key: `ong-team-63/${file.file.img.name}`,
-        Body: file.file.img.data
+const uploadToBucket = (params, callback) => {
+  var uploadParams = {
+    Bucket: BUCKET,
+    Key: params.key,
+    Body: params.buffer,
+  };
+  if (params.hasOwnProperty('contEnc')) uploadParams['contentEncoding'] = params.contEnc;
+
+  s3.upload(uploadParams, (err, data) => {
+    callback(err, data);
+  });
+};
+
+const deleteObjectOnBucket = key => {
+  var deleteParams = {
+    Bucket: BUCKET,
+    Key: key,
+  };
+
+  s3.deleteObject(deleteParams, (err, data) => {
+    if (err) {
+      console.log(err, err.stack);
+    } else {
+      console.log('Object Deleted', data);
     }
+  });
+};
 
-    return s3.putObject(params).promise();
-}
+const objectListOnBucket = (objectFileName = '') => {
+  var bucketParams = {
+    Bucket: BUCKET,
+    Prefix: objectFileName,
+  };
 
-// Delete file
-exports.deleteFile = async(file) => {      
-    const params = {
-        Bucket: config.bucketname,
-        Key: `ong-team-63/${file}`
+  s3.listObjects(bucketParams, (err, data) => {
+    if (err) {
+      console.log('Error', err);
+    } else {
+      console.log(data.Contents);
     }
+  });
+};
 
-    return s3.deleteObject(params).promise();
-}
+module.exports = {
+  uploadToBucket,
+  deleteObjectOnBucket,
+  objectListOnBucket,
+};
