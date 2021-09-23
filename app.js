@@ -29,6 +29,12 @@ app.use('/api/v1/users', usersRouter)
 
 app.use('/api/v1/', entriesRoute);
 
+app.use('/api/v01/', [
+  slideRouter,
+  usersRouter,
+  authRouter,
+  organizationRoutes
+])
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
