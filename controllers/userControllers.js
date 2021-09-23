@@ -9,6 +9,20 @@ const deleteUser = (req, res, next) => {
             res.status(404).json("Doesn´t exist a User with that ID (or was already deleted)") 
     })
 }
+
+const getUsersList = async (req, res, next) => {
+    try {
+        const list = await userService.findAllUsers()
+        console.log(list)
+        !list 
+        ? res.status(200).json({message: 'No se encontraron usuarios.'})
+        : res.status(200).json(list)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
-    deleteUser
+    deleteUser,
+    getUsersList
 }
