@@ -16,7 +16,17 @@ const _uniqueEmail = check("email").custom(async email => {
   }
 });
 
-// GRUPO DE VALIDACIONES
+const isAdmin = (req, res, next) => {
+  const { roleId } = decryptToken(req.token)
+
+  if (roleId === 1) {
+    next()
+  } else {
+    return res.status(403).json({ message: "Acceso no autorizado (solo admin)" });
+  }
+}
+
+// Grupos de validaciones
 const loginValidations = [
   _validEmail,
   _requiredEmail,
@@ -34,4 +44,4 @@ const registerValidations = [
   checkValidations,
 ];
 
-module.exports = { loginValidations, registerValidations};
+module.exports = { loginValidations, registerValidations, isAdmin };
