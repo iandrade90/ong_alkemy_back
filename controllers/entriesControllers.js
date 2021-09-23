@@ -1,5 +1,6 @@
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
+const { findByIdAndEditEntry, findByIdEntry } = require("../services/entriesService");
 
 const entity = 'Entries';
 
@@ -12,9 +13,7 @@ const getNews = async (req, res, next) => {
     }
 }
 
-const { findByIdAndEditEntry } = require("../services/entriesService");
-
-const putEntry = async (req, res) => {
+const putNews = async (req, res) => {
   try {
     const entry = await findByIdAndEditEntry(req.params.id, req.body);
     !entry
@@ -25,7 +24,21 @@ const putEntry = async (req, res) => {
   }
 };
 
+
+/* Obtiene una novedad segun su id */
+const getEntry = async (req, res, next) => {
+  try {
+    const entry = await findByIdEntry(req.params.id);
+    !entry
+    ? res.status(200).json({ message: "No existen entradas con ese ID" })
+    : res.status(200).json(entry);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
-    getNews,
-    putEntry,
-}
+  getNews,
+  putNews,
+  getEntry,
+};
