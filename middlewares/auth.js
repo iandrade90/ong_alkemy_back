@@ -1,30 +1,44 @@
 const { check } = require("express-validator");
 const { customValidationResult: checkValidations } = require("./commons");
 const userService = require("../services/userService");
+const { decryptToken } = require("../services/tokenService");
 
 // VALIDACIONES
 const _validEmail = check("email", "Email is invalid").isEmail();
 const _requiredEmail = check("email", "Email field is required").notEmpty();
-const _requiredFirstName = check("firstName", "Firstname field is required").notEmpty();
-const _requiredLastName = check("lastName", "Lastname field is required").notEmpty();
-const _requiredPassword = check("password", "Password field is required").notEmpty();
-const _uniqueEmail = check("email").custom(async email => {
+const _requiredFirstName = check(
+  "firstName",
+  "Firstname field is required"
+).notEmpty();
+const _requiredLastName = check(
+  "lastName",
+  "Lastname field is required"
+).notEmpty();
+const _requiredPassword = check(
+  "password",
+  "Password field is required"
+).notEmpty();
+const _uniqueEmail = check("email").custom(async (email) => {
   const user = await userService.findByEmail(email);
 
   if (user) {
-    throw new Error("Email is already in used. Please try with a different email address.",);
+    throw new Error(
+      "Email is already in used. Please try with a different email address."
+    );
   }
 });
 
 const isAdmin = (req, res, next) => {
-  const { roleId } = decryptToken(req.token)
+  const { roleId } = decryptToken(req.token);
 
   if (roleId === 1) {
-    next()
+    next();
   } else {
-    return res.status(403).json({ message: "Acceso no autorizado (solo admin)" });
+    return res
+      .status(403)
+      .json({ message: "Acceso no autorizado (solo admin)" });
   }
-}
+};
 
 // Grupos de validaciones
 const loginValidations = [

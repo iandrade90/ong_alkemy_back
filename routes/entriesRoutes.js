@@ -4,21 +4,21 @@ const {
   putNews,
   getNews,
   getEntry,
+  postNews,
 } = require("../controllers/entriesControllers");
+const { isAdmin } = require("../middlewares/auth");
+const { tokenExists } = require("../middlewares/token");
 const router = express.Router();
 
 router.get("/news", getNews);
 
-/* GET NEWS:id */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
+/* Obtiene una entry especificada por su id */
 router.get("/news/:id", getEntry);
 
-/* Put NEWS:id */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
-router.put("/news/:id", putNews);
+/* Edita una entry */
+router.put("/news/:id", tokenExists, isAdmin, putNews);
 
-/* Post NEWS */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
-router.post("/news", createValidation, postNews);
+/* Crea una nueva entry de tipo news */
+router.post("/news", tokenExists, isAdmin, createValidation, postNews);
 
 module.exports = router;
