@@ -13,7 +13,6 @@ const deleteUser = (req, res, next) => {
 const getUsersList = async (req, res, next) => {
     try {
         const list = await userService.findAllUsers()
-        console.log(list)
         !list 
         ? res.status(200).json({message: 'No se encontraron usuarios.'})
         : res.status(200).json(list)
