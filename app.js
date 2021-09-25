@@ -11,6 +11,8 @@ const usersRouter = require("./routes/usersRoutes");
 const authRouter = require("./routes/authRoutes");
 const entriesRouter = require("./routes/entriesRoutes");
 const organizationRoutes = require("./routes/organizationsRoutes");
+const activityRoutes = require("./routes/activityRoutes");
+const slideRoutes = require("./routes/slideRoute");
 
 const app = express();
 app.use(cors());
@@ -24,8 +26,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/organizations", organizationRoutes);
 app.use("/api/v1/users", usersRouter);
-
+app.use("/api/v1/activities", activityRoutes);
 app.use("/api/v1/", entriesRouter);
+app.use("/api/v1/", slideRoutes);
 
 app.use("/api/v01/", [usersRouter, authRouter, organizationRoutes]);
 // catch 404 and forward to error handler
@@ -42,8 +45,9 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    message: err?.message||"Error desconocid o",
-    details:err?.details || "Sin detalles   "  });
+    message: err?.message || "Error desconocido",
+    details: err?.details || "Sin detalles"
+  });
 });
 
 module.exports = app;
