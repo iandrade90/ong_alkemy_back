@@ -1,8 +1,7 @@
+const Repository = require("../repositories");
+const organizationRepository = new Repository();
+const entity = "Organization";
 
-const Repository = require("../repositories")
-const organizationRepository = new Repository
-const entity = "Organization"
-
-exports.findOrganizationById = id => {
-    return organizationRepository.findById(entity, id)
-}
+exports.findOrganizationById = async id => {
+  return organizationRepository.findByIdWithAssociation(entity, id, "SocialNetwork");
+};
