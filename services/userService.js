@@ -20,5 +20,5 @@ exports.deleteUserById = id => {
 };
 
 exports.findAllUsers = async () => {
-  return await userRepository.findAll(entity, 1);
-}
+  return await userRepository.findAll(entity, '');
+};
