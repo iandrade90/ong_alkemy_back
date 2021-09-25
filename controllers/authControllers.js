@@ -12,6 +12,7 @@ const loginController = (req, res, next) => {
   const reqPassword = password;
   authService
     .findUserByEmail(email)
+
     .then((userFound) => {
       userFound
         ? bcrypt
@@ -19,10 +20,15 @@ const loginController = (req, res, next) => {
             .then((passwordMatch) => {
               passwordMatch
                 ? res.status(200).json({
-                    id: userFound.id,
-                    email: userFound.email,
-                    roleId: userFound.roleId,
                     token: generateToken(userFound),
+                    user: {
+                      id: userFound.id,
+                      email: userFound.email,
+                      firstName: userFound.firstName,
+                      lastName: userFound.lastName,
+                      image: userFound.image,
+                      roleId: userFound.roleId === 1,
+                    },
                   })
                 : forbiddenMsg(res);
             })
