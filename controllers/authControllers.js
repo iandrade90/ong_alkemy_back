@@ -2,9 +2,10 @@ const authService = require('../services/authService')
 const userService = require('../services/userService')
 const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
+const { EmailSendgrid } = require('../services/sendgrid')
 
 const forbiddenMsg = (res) => {
-  return res.status(401).json({ ok: false })
+  return res.status(401).json({msg:"no papa"})
 }
 
 const loginController = (req, res, next) => {
@@ -25,7 +26,7 @@ const loginController = (req, res, next) => {
              image: userFound.image,
              roleId: userFound.roleId === 1,
            }
-         }): forbiddenMsg(res)
+         }): forbiddenMsg(res )
      }) : forbiddenMsg(res);
   })
   .catch(error => next(error))
@@ -35,7 +36,9 @@ const registerController = async (req, res, next) => {
   const newUser = { firstName, lastName, email, password };
   try {
     const userCreated = await userService.save(newUser);
-    //* OP: el ticket especifica que se debe devolver el usuario creado, en un futuro esto debe cambiarse
+
+    EmailSendgrid(userCreated.email, "Bienvenido a nuestra plataforma", "la vas a pasar", "<strong> MUY BIEN </strong>")
+
     res.status(201).json(userCreated);
   } catch (error) {
     next(error);
@@ -43,7 +46,7 @@ const registerController = async (req, res, next) => {
 };
 
 const tokenController = (req, res, next) => {
-  const { id } = decryptToken(req.token)
+  const { id } = req.data
   id && authService.findUserById(id)
     .then(userFound => {
       userFound ? res.status(200).json(userFound) :
