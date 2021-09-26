@@ -1,28 +1,26 @@
-const config = require('../config/config').development
-var AWS = require('aws-sdk');
-// Set the region 
+const config = require("../config/config").development;
+var AWS = require("aws-sdk");
+// Set the region
 // Create S3 service object
 const BUCKET = config.aws_bucket_name;
+AWS.config.update({ region: "sa-east-1" });
 
-AWS.config.update({region: 'sa-east-1'});
+s3 = new AWS.S3({
+  apiVersion: "2006-03-01",
+  credentials: {
+    accessKeyId: config.aws_access_key_id,
+    secretAccessKey: config.aws_secret_access_key,
+  },
+});
 
-s3 = new AWS.S3({apiVersion: '2006-03-01',
-credentials:{
-    accessKeyId:config.aws_access_key_id,
-    secretAccessKey:config.aws_secret_access_key
-}});
-
-const uploadToBucket = (params, callback) => {
-  var uploadParams = {
+const uploadToBucket = async (params, callback) => {
+  const uploadParams = {
     Bucket: BUCKET,
     Key: params.key,
     Body: params.buffer,
   };
-  if (params.hasOwnProperty('contEnc')) uploadParams['contentEncoding'] = params.contEnc;
 
-  s3.upload(uploadParams, (err, data) => {
-    callback(err, data);
-  });
+  return await s3.upload(uploadParams).promise();
 };
 
 const deleteObjectOnBucket = key => {
@@ -35,12 +33,12 @@ const deleteObjectOnBucket = key => {
     if (err) {
       console.log(err, err.stack);
     } else {
-      console.log('Object Deleted', data);
+      console.log("Object Deleted", data);
     }
   });
 };
 
-const objectListOnBucket = (objectFileName = '') => {
+const objectListOnBucket = (objectFileName = "") => {
   var bucketParams = {
     Bucket: BUCKET,
     Prefix: objectFileName,
@@ -48,7 +46,7 @@ const objectListOnBucket = (objectFileName = '') => {
 
   s3.listObjects(bucketParams, (err, data) => {
     if (err) {
-      console.log('Error', err);
+      console.log("Error", err);
     } else {
       console.log(data.Contents);
     }
