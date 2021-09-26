@@ -7,11 +7,12 @@ const cors = require("cors");
 require("dotenv").config();
 
 
-
-const usersRouter = require('./routes/usersRoutes');
-const authRouter = require('./routes/authRoutes')
-const entriesRoute = require('./routes/entriesRoutes');
-const organizationRoutes = require('./routes/organizationsRoutes')
+const usersRoutes = require("./routes/usersRoutes");
+const authRoutes = require("./routes/authRoutes");
+const entriesRoutes = require("./routes/entriesRoutes");
+const organizationRoutes = require("./routes/organizationsRoutes");
+const activityRoutes = require("./routes/activityRoutes");
+const slideRoutes = require("./routes/slideRoute");
 
 const app = express();
 app.use(cors());
@@ -24,11 +25,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 app.use('/api/v1/', [
-  entriesRoute,
-  authRouter,
+  entriesRoutes,
+  authRoutes,
   organizationRoutes,
-  usersRouter
+  usersRoutes,
+  slideRoutes,
+  activityRoutes
 ]);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -44,7 +48,8 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    message: err.message,
+    message: err?.message || "Error desconocido",
+    details: err?.details || "Sin detalles"
   });
 });
 
