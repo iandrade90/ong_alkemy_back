@@ -1,6 +1,6 @@
 const { check } = require("express-validator");
 const { customValidationResult: checkValidations } = require("./commons");
-const userService = require("../services/userService");
+const authService = require("../services/authService");
 
 // VALIDACIONES
 const _validEmail = check("email", "Email is invalid").isEmail();
@@ -9,10 +9,10 @@ const _requiredFirstName = check("firstName", "Firstname field is required").not
 const _requiredLastName = check("lastName", "Lastname field is required").notEmpty();
 const _requiredPassword = check("password", "Password field is required").notEmpty();
 const _uniqueEmail = check("email").custom(async email => {
-  const user = await userService.findByEmail(email);
+  const user = await authService.findUserByEmail(email);
 
   if (user) {
-    throw new Error("Email is already in used. Please try with a different email address.",);
+    throw new Error("Email is already in used. Please try with a different email address.");
   }
 });
 

@@ -1,9 +1,11 @@
 const express = require("express");
-const { putEntry } = require("../controllers/entriesControllers");
+const { putEntry, getNews, getEntry } = require("../controllers/entriesControllers");
 const router = express.Router();
 
-/* Put NEWS:id */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
+
+router.get('/news', getNews);
+router.get("/news/:id", getEntry);
+
 router.put("/news/:id", putEntry);
 
 module.exports = router;

@@ -7,10 +7,10 @@ const cors = require("cors");
 require("dotenv").config();
 
 
-const indexRouter = require('./routes/index');
+
 const usersRouter = require('./routes/usersRoutes');
 const authRouter = require('./routes/authRoutes')
-const entriesRoute = require('./routes/entriesRoute');
+const entriesRoute = require('./routes/entriesRoutes');
 const organizationRoutes = require('./routes/organizationsRoutes')
 
 const app = express();
@@ -22,12 +22,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/auth', authRouter);
-app.use('/organizations', organizationRoutes)
-app.use('/users', usersRouter)
 
-
-app.use('/api/v01/', entriesRoute);
+app.use('/api/v1/', [
+  entriesRoute,
+  authRouter,
+  organizationRoutes,
+  usersRouter
+]);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

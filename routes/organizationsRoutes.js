@@ -3,7 +3,7 @@ const { findPublicOrganizations } = require("../controllers/organizationControll
 
 const router = express.Router()
 
-router.get('/:id/public', findPublicOrganizations)
+router.get('/organizations/:id/public', findPublicOrganizations)
 
 
 module.exports = router
