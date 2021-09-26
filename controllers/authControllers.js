@@ -4,8 +4,8 @@ const { generateToken, decryptToken } = require('../services/tokenService')
 const bcrypt = require('bcrypt')
 const { EmailSendgrid } = require('../services/sendgrid')
 
-const forbiddenMsg = (res) => {
-  return res.status(401).json({msg:"no papa"})
+const forbiddenMsg = (res, msg) => {
+  return res.status(401).json(msg)
 }
 
 const loginController = (req, res, next) => {
@@ -26,8 +26,8 @@ const loginController = (req, res, next) => {
              image: userFound.image,
              roleId: userFound.roleId === 1,
            }
-         }): forbiddenMsg(res )
-     }) : forbiddenMsg(res);
+         }): forbiddenMsg(res, "Failed in authentication, wrong email or password")
+     }) : forbiddenMsg(res, "Failed in authentication, wrong email or password");
   })
   .catch(error => next(error))
 }
@@ -50,7 +50,7 @@ const tokenController = (req, res, next) => {
   id && authService.findUserById(id)
     .then(userFound => {
       userFound ? res.status(200).json(userFound) :
-        forbiddenError(res)
+        forbiddenError(res, "Failed in token authentication")
     })
   .catch(error => next(error))
     
