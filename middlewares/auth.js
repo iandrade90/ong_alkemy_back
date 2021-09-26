@@ -1,6 +1,7 @@
 const { check } = require("express-validator");
 const { customValidationResult: checkValidations } = require("./commons");
 const authService = require("../services/authService");
+const {decryptToken} = require('../services/tokenService')
 
 // VALIDACIONES
 const _validEmail = check("email", "Email is invalid").isEmail();
