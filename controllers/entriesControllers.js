@@ -1,4 +1,4 @@
-const { validationResult } = require("express-validator");
+const { customValidationResult: validationResult } = require('../middlewares/commons');
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
 const {
@@ -66,6 +66,8 @@ const getEntry = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 module.exports = {
   postNews,

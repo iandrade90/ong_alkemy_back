@@ -2,9 +2,10 @@ const authService = require("../services/authService");
 const userService = require("../services/userService");
 const { generateToken, decryptToken } = require("../services/tokenService");
 const bcrypt = require("bcrypt");
+const { EmailSendgrid } = require("../services/sendgrid");
 
-const forbiddenMsg = (res) => {
-  return res.status(401).json({ ok: false });
+const forbiddenMsg = (res, msg) => {
+  return res.status(401).json(msg);
 };
 
 const loginController = (req, res, next) => {
@@ -30,19 +31,25 @@ const loginController = (req, res, next) => {
                       roleId: userFound.roleId === 1,
                     },
                   })
-                : forbiddenMsg(res);
+                : forbiddenMsg(
+                    res,
+                    "Failed in authentication, wrong email or password"
+                  );
             })
-        : forbiddenMsg(res);
+        : forbiddenMsg(
+            res,
+            "Failed in authentication, wrong email or password"
+          );
     })
     .catch((error) => next(error));
 };
+
 const registerController = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const newUser = { firstName, lastName, email, password };
   try {
     const userCreated = await userService.save(newUser);
 
-    //Realizo la busqueda en la DB porque voy a necesitar el parametro roleId que no lo tengo en el formulario
     const responseRegister = await authService
       .findUserByEmail(newUser.email)
       .then((userFound) => {
@@ -53,6 +60,13 @@ const registerController = async (req, res, next) => {
           token: generateToken(userFound),
         };
       });
+    EmailSendgrid(
+      userCreated.email,
+      "Bienvenido a nuestra plataforma",
+      "la vas a pasar",
+      "<strong> MUY BIEN </strong>"
+    );
+
     res.status(201).json(responseRegister);
   } catch (error) {
     next(error);
@@ -60,12 +74,14 @@ const registerController = async (req, res, next) => {
 };
 
 const tokenController = (req, res, next) => {
-  const { id } = decryptToken(req.token);
+  const { id } = req.data;
   id &&
     authService
       .findUserById(id)
       .then((userFound) => {
-        userFound ? res.status(200).json(userFound) : forbiddenError(res);
+        userFound
+          ? res.status(200).json(userFound)
+          : forbiddenError(res, "Failed in token authentication");
       })
       .catch((error) => next(error));
 };
