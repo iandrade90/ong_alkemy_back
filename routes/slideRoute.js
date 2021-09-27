@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const slideController = require('../controllers/slideController');
-const { slideValidation } = require('../middlewares/slide/slideMiddleware');
+const { slideValidation } = require('../middlewares/slideMiddleware');
 
 router.get('/slides', slideController.getSlides);
 
