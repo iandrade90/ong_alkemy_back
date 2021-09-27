@@ -8,8 +8,8 @@ const { isAdmin } = require("../middlewares/auth");
 const { tokenExists } = require("../middlewares/token");
 
 
-router.get("/:id", tokenExists, isAdmin, getActivity);
+router.get("/activities/:id", tokenExists, isAdmin, getActivity);
 
-router.post("/", tokenExists, isAdmin, createActivityValidation, createActivity);
+router.post("/activities", tokenExists, isAdmin, createActivityValidation, createActivity);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { Activities } = require('../models');
+
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
 
