@@ -29,7 +29,7 @@ const _uniqueEmail = check("email").custom(async (email) => {
 });
 
 const isAdmin = (req, res, next) => {
-  const { roleId } = decryptToken(req.token);
+  const { roleId } = req.data;
 
   if (roleId === 1) {
     next();
