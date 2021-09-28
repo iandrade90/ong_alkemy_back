@@ -7,7 +7,6 @@ const cors = require("cors");
 const fileUpload = require('express-fileupload');
 require("dotenv").config();
 
-
 const usersRoutes = require("./routes/usersRoutes");
 const authRoutes = require("./routes/authRoutes");
 const entriesRoutes = require("./routes/entriesRoutes");
@@ -15,7 +14,7 @@ const organizationRoutes = require("./routes/organizationsRoutes");
 const activityRoutes = require("./routes/activityRoutes");
 const slideRoutes = require("./routes/slideRoute");
 const testimonialsRoutes = require("./routes/testimonialsRoutes")
-
+const contactsRouter = require("./routes/contactRoutes");
 
 const app = express();
 app.use(cors());
@@ -35,9 +34,9 @@ app.use('/api/v1/', [
   usersRoutes,
   slideRoutes,
   activityRoutes,
-  testimonialsRoutes
+  testimonialsRoutes,
+  contactsRouter
 ]);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
