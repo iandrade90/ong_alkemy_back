@@ -2,7 +2,7 @@ const contactsService = require('../services/contactsService');
 
 const contactList = async (req,res,next) => {
     try {
-        const list = await contactsService.findAll();
+        const list = await contactsService.getContacts();
         list.length < 1
         ? res.status(200).json({message: 'No se encontraron contactos.'})
         : res.status(200).json(list)
