@@ -6,9 +6,9 @@ const router = express.Router()
 
 
 
-router.post('/login', loginValidations, loginController)
-router.post("/register", registerValidations, registerController);
+router.post('/auth/login', loginValidations, loginController)
+router.post("/auth/register", registerValidations, registerController);
 
-router.get('/me', tokenExists, tokenController)
+router.get('/auth/me', tokenExists, tokenController)
 
 module.exports = router;
