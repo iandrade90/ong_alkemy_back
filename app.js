@@ -11,14 +11,10 @@ const usersRoutes = require("./routes/usersRoutes");
 const authRoutes = require("./routes/authRoutes");
 const entriesRoutes = require("./routes/entriesRoutes");
 const organizationRoutes = require("./routes/organizationsRoutes");
-<<<<<<< HEAD
-const contactsRoutes = require('./routes/contactsRoutes');
-=======
 const activityRoutes = require("./routes/activityRoutes");
 const slideRoutes = require("./routes/slideRoute");
 const testimonialsRoutes = require("./routes/testimonialsRoutes")
 const contactsRouter = require("./routes/contactRoutes");
->>>>>>> eef3f8a30069ac259a798608cd011a921a3087f4
 
 const app = express();
 app.use(cors());
@@ -42,10 +38,6 @@ app.use('/api/v1/', [
   contactsRouter
 ]);
 
-<<<<<<< HEAD
-app.use("/api/v01/", [usersRouter, authRouter, organizationRoutes, contactsRoutes]);
-=======
->>>>>>> eef3f8a30069ac259a798608cd011a921a3087f4
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
