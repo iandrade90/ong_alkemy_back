@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-const { customValidationResult: validationResult } = require('../validationResult');
+const { customValidationResult: validationResult } = require('./commons');
 
 const urlNotEmpty = check("imageUrl", "Image field is empty").notEmpty();
 const textNotEmpty = check("text", "Text field is empty").notEmpty();

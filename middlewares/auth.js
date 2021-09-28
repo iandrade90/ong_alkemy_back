@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 const { customValidationResult: checkValidations } = require("./commons");
-const userService = require("../services/userService");
-const { decryptToken } = require("../services/tokenService");
+const authService = require("../services/authService");
+const {decryptToken} = require('../services/tokenService')
 
 // VALIDACIONES
 const _validEmail = check("email", "Email is invalid").isEmail();
@@ -19,7 +19,7 @@ const _requiredPassword = check(
   "Password field is required"
 ).notEmpty();
 const _uniqueEmail = check("email").custom(async (email) => {
-  const user = await userService.findByEmail(email);
+  const user = await authService.findUserByEmail(email);
 
   if (user) {
     throw new Error(
@@ -29,7 +29,7 @@ const _uniqueEmail = check("email").custom(async (email) => {
 });
 
 const isAdmin = (req, res, next) => {
-  const { roleId } = decryptToken(req.token);
+  const { roleId } = req.data;
 
   if (roleId === 1) {
     next();
