@@ -57,6 +57,12 @@ class Repositories {
       },
     });
   };
+
+  findByIdWithAssociation = async (entity, id, association) => {
+    return await this.models[entity].findByPk(id, {
+      include: [{ model: this.models[association] }],
+    });
+  };
 }
 
 module.exports = Repositories;

@@ -1,9 +1,8 @@
-const express = require("express")
-const { findPublicOrganizations } = require("../controllers/organizationControllers")
+const express = require("express");
+const { findPublicOrganizations } = require("../controllers/organizationControllers");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/organizations/:id/public', findPublicOrganizations)
+router.get("/organizations/:id/public", findPublicOrganizations);
 
-
-module.exports = router
+module.exports = router;
