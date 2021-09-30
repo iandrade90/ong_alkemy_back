@@ -30,7 +30,7 @@ const putNews = async (req, res) => {
   try {
     const entry = await findByIdAndEditEntry(req.params.id, req.body);
     !entry
-      ? res.status(204).json({ message: "No existen entradas con ese ID" })
+      ? res.status(200).json({ message: "No existen entradas con ese ID" })
       : res.status(200).json(entry);
   } catch (error) {
     next(error);
@@ -63,7 +63,7 @@ const getEntry = async (req, res, next) => {
   try {
     const entry = await findByIdEntry(req.params.id);
     !entry
-      ? res.status(204).json({ message: "No existen entradas con ese ID" })
+      ? res.status(200).json({ message: "No existen entradas con ese ID" })
       : res.status(200).json(entry);
   } catch (error) {
     next(error);
