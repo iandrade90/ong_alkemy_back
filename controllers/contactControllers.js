@@ -1,6 +1,7 @@
 const { Contacts } = require('../models');
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
+const contactsService = require('../services/contactsService');
 
 exports.createContact = async (req, res, next) => {
     try {
@@ -14,3 +15,15 @@ exports.createContact = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.contactList = async (req,res,next) => {
+    try {
+        const list = await contactsService.getContacts();
+        list.length < 1
+        ? res.status(200).json({message: 'No se encontraron contactos.'})
+        : res.status(200).json(list)
+    } catch (error) {
+        next(error);
+    }
+    
+}
