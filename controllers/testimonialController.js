@@ -21,7 +21,6 @@ const createTestimonial = async (req, res, next) => {
 const deleteTestimonial = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id)
 
     const testimonialDeleted = await Repository.deleteById("Testimonials", id);
     !testimonialDeleted
