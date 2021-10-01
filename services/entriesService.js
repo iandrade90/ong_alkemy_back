@@ -9,8 +9,6 @@ const deleteById = (id) => entriesRepository.deleteById(entity, id);
 const findByIdAndEditEntry = (id, params) =>
   entriesRepository.updatePayload(entity, id, params);
 
-const createNews = (params) => entriesRepository.createPayload(entity, params);
-
 module.exports = {
   findByIdEntry,
   findByIdAndEditEntry,
