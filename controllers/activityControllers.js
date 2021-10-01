@@ -29,3 +29,13 @@ exports.getActivity = async function (req, res, next) {
         next(error);
     }
 }
+
+exports.updateActivity = (req, res, next) => {
+    const { id } = req.params
+    const newParams = req.body
+    Repository.updatePayload("Activities", id, newParams)
+        .then(update => {
+            !update ? res.status(400).json("Activity not found") :
+            res.json(update)
+    })
+}
