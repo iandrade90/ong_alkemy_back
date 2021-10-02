@@ -18,7 +18,3 @@ exports.findByEmail = async email => {
 exports.deleteUserById = id => {
   return userRepository.deleteById(entity, id);
 };
-
-exports.findAllUsers = async () => {
-  return await userRepository.findAll(entity);
-};
