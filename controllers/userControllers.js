@@ -10,18 +10,18 @@ const deleteUser = (req, res, next) => {
     })
 }
 
-exports.usersList = async (req,res,next) => {
+const usersList = async (req,res,next) => {
     try {
-        const list = await userService.getUsersList();
+        const list = await userService.getUsersList()
         list.length < 1
         ? res.status(200).json({message: 'No se encontraron usuarios.'})
         : res.status(200).json(list)
     } catch (error) {
         next(error);
     }
-    
 }
 
 module.exports = {
-    deleteUser
+    deleteUser,
+    usersList
 }
