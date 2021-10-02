@@ -7,6 +7,6 @@ const { isAdmin } = require('../middlewares/auth');
 /* GET users listing. */
 router.delete('/users/:id', deleteUser)
 
-router.get('/users', usersList)
+router.get('/users',[tokenExists, isAdmin], usersList)
 
 module.exports = router;
