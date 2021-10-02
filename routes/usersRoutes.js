@@ -1,6 +1,5 @@
 var express = require('express');
-const { deleteUser } = require('../controllers/userControllers');
-const { getUsersList } = require('../services/userService');
+const { deleteUser, usersList } = require('../controllers/userControllers');
 var router = express.Router();
 const { tokenExists } = require('../middlewares/token');
 const { isAdmin } = require('../middlewares/auth');
@@ -8,6 +7,6 @@ const { isAdmin } = require('../middlewares/auth');
 /* GET users listing. */
 router.delete('/users/:id', deleteUser)
 
-router.get('/users', [tokenExists, isAdmin], getUsersList)
+router.get('/users', usersList)
 
 module.exports = router;
