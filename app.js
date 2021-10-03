@@ -15,6 +15,7 @@ const activityRoutes = require("./routes/activityRoutes");
 const slideRoutes = require("./routes/slideRoute");
 const testimonialsRoutes = require("./routes/testimonialsRoutes")
 const contactsRouter = require("./routes/contactRoutes");
+const membersRoutes = require("./routes/membersRoutes")
 
 const app = express();
 app.use(cors());
@@ -35,7 +36,8 @@ app.use('/api/v1/', [
   slideRoutes,
   activityRoutes,
   testimonialsRoutes,
-  contactsRouter
+  contactsRouter, 
+  membersRoutes
 ]);
 
 // catch 404 and forward to error handler
