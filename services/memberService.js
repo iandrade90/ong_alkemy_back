@@ -15,7 +15,8 @@ const deleteMember = async id => {
 
   if (!member) {
     const err = new Error("Miembro no encontrado");
-    err.details = "El ID proporcionado no pertence a nigun miembro de la base de datos";
+    err.details =
+      "El ID proporcionado no pertence a nigun miembro de la base de datos";
     throw err;
   }
 
@@ -23,4 +24,16 @@ const deleteMember = async id => {
   return deletedUser;
 };
 
-module.exports = { getMembers, createMember, deleteMember };
+const updateMember = async (id, payload) => {
+  const member = await memberRepository.findById(entity, id);
+  if (!member) {
+    const err = new Error("Miembro no encontrado");
+    err.details =
+      "El ID proporcionado no pertence a nigun miembro de la base de datos";
+    throw err;
+  }
+
+  return await memberRepository.updatePayload(entity, id, payload);
+};
+
+module.exports = { getMembers, createMember, deleteMember, updateMember };
