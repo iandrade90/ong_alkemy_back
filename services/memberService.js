@@ -6,4 +6,9 @@ const getMembers = () => {
   return memberRepository.findAll(entity, ["id", "name", "image"]);
 };
 
-module.exports = { getMembers };
+const createMember = (member) =>  {
+  return memberRepository.createPayload(entity, member);
+}
+
+
+module.exports = { getMembers, createMember };
