@@ -1,6 +1,6 @@
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
-const entity = 'category';
+const entity = 'Category';
 
 const getCategories = async (req, res, next) => {
     try {

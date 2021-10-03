@@ -12,7 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 const entriesRoutes = require("./routes/entriesRoutes");
 const organizationRoutes = require("./routes/organizationsRoutes");
 const activityRoutes = require("./routes/activityRoutes");
-// const slideRoutes = require("./routes/slideRoute");
+const slideRoutes = require("./routes/slideRoute");
 const testimonialsRoutes = require("./routes/testimonialsRoutes")
 const contactsRouter = require("./routes/contactRoutes");
 const categoriesRoutes = require('./routes/categoriesRoutes');
@@ -33,7 +33,7 @@ app.use('/api/v1/', [
   authRoutes,
   organizationRoutes,
   usersRoutes,
-  // slideRoutes,
+  slideRoutes,
   activityRoutes,
   testimonialsRoutes,
   contactsRouter,

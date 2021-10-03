@@ -7,6 +7,6 @@ const { isAdmin } = require("../middlewares/auth");
 const { tokenExists } = require("../middlewares/token");
 const router = express.Router();
 
-router.get("/categories", getCategories);
+router.get("/categories", isAdmin, tokenExists, getCategories);
 
 module.exports = router;
