@@ -12,6 +12,6 @@ const findByIdAndEditEntry = (id, params) =>
 module.exports = {
   findByIdEntry,
   findByIdAndEditEntry,
-  createNews,
+  // createNews,
   deleteById
 };

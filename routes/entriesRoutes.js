@@ -1,5 +1,5 @@
 const express = require("express");
-const createValidation = require("../middlewares/entriesValidation");
+// const createValidation = require("../middlewares/entriesValidation");
 const {
   putNews,
   getNews,
