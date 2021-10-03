@@ -1,11 +1,11 @@
 const express = require("express");
-const { getMembers, createMember } = require("../controllers/memberController");
-const { createValidations } = require("../middlewares/members");
+const { getMembers, createMember, deleteMember } = require("../controllers/memberController");
+const { createValidations, deleteValidations } = require("../middlewares/members");
 const router = express.Router();
 
-//! Revisar validaciones correspondientes
-
+//! OP: Revisar validaciones correspondientes
 router.get("/members", getMembers);
 router.post("/members", createValidations, createMember);
+router.delete("/members/:id", deleteMember)
 
 module.exports = router;

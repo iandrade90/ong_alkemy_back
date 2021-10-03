@@ -15,10 +15,25 @@ const createMember = async (req, res, next) => {
 
   try {
     const memberCreated = await memberService.createMember({ name });
-    res.status(201).json({status: "ok", message: "Miembro creado correctamente.", data: memberCreated});
+    res.status(201).json({
+      status: "ok",
+      message: "Miembro creado correctamente.",
+      data: memberCreated,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = { getMembers, createMember };
+const deleteMember = async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    await memberService.deleteMember(id);
+    res.json({status: "ok", message: "Miembro eliminado correctamente."});
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { getMembers, createMember, deleteMember };

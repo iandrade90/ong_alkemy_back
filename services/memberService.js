@@ -6,9 +6,21 @@ const getMembers = () => {
   return memberRepository.findAll(entity, ["id", "name", "image"]);
 };
 
-const createMember = (member) =>  {
+const createMember = member => {
   return memberRepository.createPayload(entity, member);
-}
+};
 
+const deleteMember = async id => {
+  const member = await memberRepository.findById(entity, id);
 
-module.exports = { getMembers, createMember };
+  if (!member) {
+    const err = new Error("Miembro no encontrado");
+    err.details = "El ID proporcionado no pertence a nigun miembro de la base de datos";
+    throw err;
+  }
+
+  const deletedUser = await memberRepository.deleteById(entity, id);
+  return deletedUser;
+};
+
+module.exports = { getMembers, createMember, deleteMember };
