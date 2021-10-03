@@ -22,7 +22,9 @@ const _uniqueEmail = check("email").custom(async (email) => {
   const user = await authService.findUserByEmail(email);
 
   if (user) {
-    throw new Error("Email is already in used. Please try with a different email address.",);
+    throw new Error(
+      "Email is already in used. Please try with a different email address."
+    );
   }
 });
 
@@ -30,11 +32,13 @@ const isAdmin = (req, res, next) => {
   const { roleId } = req.data;
 
   if (roleId === 1) {
-    next()
+    next();
   } else {
-    return res.status(403).json({ message: "Acceso no autorizado (solo admin)" });
+    return res
+      .status(403)
+      .json({ message: "Acceso no autorizado (solo admin)" });
   }
-}
+};
 
 // Grupos de validaciones
 const loginValidations = [

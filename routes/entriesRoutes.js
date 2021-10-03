@@ -13,13 +13,14 @@ const router = express.Router();
 
 router.get("/news", tokenExists, getNews);
 
-/* GET NEWS:id */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
+/* Obtiene una entry especificada por su id */
 router.get("/news/:id", getEntry);
 
-/* Put NEWS:id */
-/* El ticket especifica que se debe ser usuario administrador pero de momento no esta disponible esa funcionalidad. */
-router.put("/news/:id", putNews);
+/* Edita una entry */
+router.put("/news/:id", tokenExists, isAdmin, putNews);
+
+/* Crea una nueva entry de tipo news */
+router.post("/news", tokenExists, isAdmin, createValidation, postNews);
 
 router.delete('/news/:id', tokenExists, deleteNews);
 
