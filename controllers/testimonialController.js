@@ -34,7 +34,6 @@ const updateTestimonial = async (req, res, next) => {
     next(error);
   }
 };
-
 const deleteTestimonial = async (req, res, next) => {
   try {
     const { id } = req.params;
