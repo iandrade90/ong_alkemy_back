@@ -15,7 +15,9 @@ const entity = "Entries";
 const getNews = async (req, res, next) => {
   try {
     const news = await Repository.findAllByParams(entity, { type: "News" }, [
+      "id",
       "name",
+      "content",
       "image",
       "createdAt",
     ]);
