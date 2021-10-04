@@ -28,13 +28,24 @@ const updateTestimonial = async (req, res, next) => {
     const { Location: imageUrl } = await uploadToBucket(payload);
     const testimonialUpdated = await Repository.updatePayload("Testimonials", id, { name: name, content: content, image: imageUrl });
     !testimonialUpdated
-      ? res.status(404).json({ message: "No se encuentra el testimonio con ese ID." })
-      : res.status(201).json({ message: "Testimonio actualizado.", testimonialUpdated });
+      ? res.status(200).json({ message: "No se encuentra el testimonio con ese ID." })
+      : res.status(200).json({ message: "Testimonio actualizado.", testimonialUpdated });
+  } catch (error) {
+    next(error);
+  }
+};
+const deleteTestimonial = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const testimonialDeleted = await Repository.deleteById("Testimonials", id);
+    !testimonialDeleted
+      ? res.status(200).json({ message: "No se pudo eliminar el testimonio con ese ID." })
+      : res.status(200).json({ message: "Testimonio eliminado!" });
 
   } catch (error) {
     next(error);
   }
 };
 
-
-module.exports = { createTestimonial, updateTestimonial };
+module.exports = { createTestimonial, updateTestimonial, deleteTestimonial };
