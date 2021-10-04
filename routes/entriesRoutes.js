@@ -11,17 +11,19 @@ const { isAdmin } = require("../middlewares/auth");
 const { tokenExists } = require("../middlewares/token");
 const router = express.Router();
 
-router.get("/news", tokenExists, getNews);
+/* Obtiene todas las entries de tipo news */
+router.get("/news", tokenExists, isAdmin, getNews);
 
 /* Obtiene una entry especificada por su id */
-router.get("/news/:id", getEntry);
+router.get("/news/:id", tokenExists, isAdmin, getEntry);
 
-/* Edita una entry */
+/* Edita una entry especificada por su id */
 router.put("/news/:id", tokenExists, isAdmin, putNews);
 
 /* Crea una nueva entry de tipo news */
 router.post("/news", tokenExists, isAdmin, createValidation, postNews);
 
-router.delete('/news/:id', tokenExists, deleteNews);
+/* Elimina una entry especificada por su id */
+router.delete("/news/:id", tokenExists, isAdmin, deleteNews);
 
 module.exports = router;
