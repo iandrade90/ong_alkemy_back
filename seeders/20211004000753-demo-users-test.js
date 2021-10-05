@@ -7,7 +7,7 @@ module.exports = {
       lastName: 'Fernandez',
       email: 'rfernandez@test.com',
       // Important: Password not encrypted yet! 
-      password: '123456785678',
+      password: '12345678',
       roleId: 1,
       image: 'https://i.pinimg.com/originals/37/2a/cc/372acc72dfb648efd50181542bad3c63.jpg',
       createdAt: new Date,
