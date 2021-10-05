@@ -46,7 +46,7 @@ npm run dev
 |PUT|_/slides/update/:id_|**ACTUALIZA un Slide a partir de un id**| ID pasado como _parametro_ en URL. imageUrl, text, order, organizationId en _req.body_
 |DELETE|_/slides/delete/:id_|**ELIMINA un Slide a partir de un id**| ID pasado como _parametro_ en URL 
 
-# Usuarios Admin y normales, para todos la contraseña es 1234.
+# Usuarios Admin y normales, para todos la contraseña es 12345678.
 # Usuarios normales
 
 letipa45@test.com
