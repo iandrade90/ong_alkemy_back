@@ -15,6 +15,7 @@ const activityRoutes = require("./routes/activityRoutes");
 const slideRoutes = require("./routes/slideRoute");
 const testimonialsRoutes = require("./routes/testimonialsRoutes");
 const contactsRouter = require("./routes/contactRoutes");
+const membersRoutes = require("./routes/membersRoutes")
 const categoriesRoutes = require("./routes/categoriesRoutes");
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/v1/", [
   slideRoutes,
   activityRoutes,
   testimonialsRoutes,
+  membersRoutes,
   contactsRouter,
   categoriesRoutes,
 ]);

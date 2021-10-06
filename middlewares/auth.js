@@ -4,27 +4,26 @@ const authService = require("../services/authService");
 const {decryptToken} = require('../services/tokenService')
 
 // VALIDACIONES
-const _validEmail = check("email", "Email is invalid").isEmail();
-const _requiredEmail = check("email", "Email field is required").notEmpty();
+const _validEmail = check("email", "El campo email es invalido").isEmail();
+const _requiredEmail = check("email", "El campo email es requerido").notEmpty();
 const _requiredFirstName = check(
   "firstName",
-  "Firstname field is required"
+  "El campo firstname es requerido"
 ).notEmpty();
 const _requiredLastName = check(
   "lastName",
-  "Lastname field is required"
+  "El campo lastname es requerido"
 ).notEmpty();
 const _requiredPassword = check(
   "password",
-  "Password field is required"
+  "El campo password es requerido"
 ).notEmpty();
 const _uniqueEmail = check("email").custom(async (email) => {
   const user = await authService.findUserByEmail(email);
 
   if (user) {
     throw new Error(
-      "Email is already in used. Please try with a different email address."
-    );
+      "El campo email ya esta en uso. Por favor intente con otra dirección de correo electrónico diferente");
   }
 });
 
