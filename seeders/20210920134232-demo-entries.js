@@ -6,7 +6,7 @@ module.exports = {
       name: 'Test Name',
       content: 'Test Content',
       image: 'Test Image', 
-      categoryId: 1,
+    
       type: 'News',
       deletedAt: null,
       createdAt: new Date,
@@ -15,7 +15,7 @@ module.exports = {
       name: 'Test Name II',
       content: 'Test Content II',
       image: 'Test Image II', 
-      categoryId: 2,
+     
       type: 'Reports',
       deletedAt: null,
       createdAt: new Date,

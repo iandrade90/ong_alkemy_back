@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 require("dotenv").config();
 
 const usersRoutes = require("./routes/usersRoutes");
@@ -13,9 +13,10 @@ const entriesRoutes = require("./routes/entriesRoutes");
 const organizationRoutes = require("./routes/organizationsRoutes");
 const activityRoutes = require("./routes/activityRoutes");
 const slideRoutes = require("./routes/slideRoute");
-const testimonialsRoutes = require("./routes/testimonialsRoutes")
+const testimonialsRoutes = require("./routes/testimonialsRoutes");
 const contactsRouter = require("./routes/contactRoutes");
 const membersRoutes = require("./routes/membersRoutes")
+const categoriesRoutes = require("./routes/categoriesRoutes");
 
 const app = express();
 app.use(cors());
@@ -25,10 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(fileUpload())
+app.use(fileUpload());
 
-
-app.use('/api/v1/', [
+app.use("/api/v1/", [
   entriesRoutes,
   authRoutes,
   organizationRoutes,
@@ -36,8 +36,9 @@ app.use('/api/v1/', [
   slideRoutes,
   activityRoutes,
   testimonialsRoutes,
-  contactsRouter, 
-  membersRoutes
+  membersRoutes,
+  contactsRouter,
+  categoriesRoutes,
 ]);
 
 // catch 404 and forward to error handler
@@ -55,7 +56,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err?.message || "Error desconocido",
-    details: err?.details || "Sin detalles"
+    details: err?.details || "Sin detalles",
   });
 });
 

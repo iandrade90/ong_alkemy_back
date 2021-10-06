@@ -5,12 +5,12 @@ const contactsService = require('../services/contactsService');
 
 exports.createContact = async (req, res, next) => {
     try {
-        const { name, email } = req.body;
+        const { name, phone, email, message } = req.body;
 
-        const newContact = await Repository.createPayload("Contacts", { name: name, email: email });
+        const newContact = await Repository.createPayload("Contacts", { name, phone, email, message });
         !newContact
-            ? res.status(204).json({ message: "No se pudo crear el contacto!" })
-            : res.status(201).json({ message: "Contacto creada con exito!" });
+            ? res.status(200).json({ message: "No se pudo crear el contacto!" })
+            : res.status(201).json({ message: "Contacto creado con éxito!" });
     } catch (error) {
         next(error);
     }

@@ -14,7 +14,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      deletedAt: {
+      createdAt: {
         type: Sequelize.DATE
       },
       createdAt: {
