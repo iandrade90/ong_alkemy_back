@@ -12,7 +12,7 @@ const { tokenExists } = require("../middlewares/token");
 const router = express.Router();
 
 /* Obtiene todas las entries de tipo news */
-router.get("/news", tokenExists, isAdmin, getNews);
+router.get("/news", getNews);
 
 /* Obtiene una entry especificada por su id */
 router.get("/news/:id", tokenExists, isAdmin, getEntry);
