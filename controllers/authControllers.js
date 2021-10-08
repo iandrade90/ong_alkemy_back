@@ -50,13 +50,16 @@ const registerController = async (req, res, next) => {
   try {
     const userCreated = await userService.save(newUser);
 
-    
     const responseRegister = await authService
       .findUserByEmail(newUser.email)
       .then((userFound) => {
+        console.log(userFound);
         return {
           id: userFound.id,
+          firstName: userFound.firstName,
+          lastName: userFound.lastName,
           email: userFound.email,
+          image: userFound.image,
           roleId: userFound.roleId,
           token: generateToken(userFound),
         };
@@ -82,13 +85,12 @@ const tokenController = (req, res, next) => {
       .then((userFound) => {
         userFound
           ? res.status(200).json({
-            firstName:userFound.firstName,
-            lastName:userFound.lastName,
-            email:userFound.email,
-            avatar:userFound.image,
-            isAdmin:userFound.roleId === 1
-
-          })
+              firstName: userFound.firstName,
+              lastName: userFound.lastName,
+              email: userFound.email,
+              avatar: userFound.image,
+              isAdmin: userFound.roleId === 1,
+            })
           : forbiddenError(res, "Failed in token authentication");
       })
       .catch((error) => next(error));

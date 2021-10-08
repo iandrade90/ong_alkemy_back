@@ -19,7 +19,7 @@ const getNews = async (req, res, next) => {
       "name",
       "content",
       "image",
-      "content",
+      "type",
       "createdAt",
     ]);
     res.json(news);

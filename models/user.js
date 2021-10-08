@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     image:{
       type: DataTypes.STRING,
-      defaultValue:''
+      defaultValue:'https://www.whfamilydentistry.com/wp-content/uploads/2019/08/default.jpg'
     },
     password: DataTypes.STRING,
     roleId:{
