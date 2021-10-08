@@ -10,13 +10,15 @@ const createCategory = async (req, res, next) => {
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
 
-    const newActivity = await Repository.createPayload("Category", {
+    const newCategory = await Repository.createPayload("Category", {
       name: name,
       description: description,
     });
-    !newActivity
+    !newCategory
       ? res.status(204).json({ message: "No se pudo crear la categoria" })
-      : res.status(201).json({ message: "Categoria creada con exito!" });
+      : res
+          .status(201)
+          .json({ message: "Categoria creada con éxito!", data: newCategory });
   } catch (error) {
     next(error);
   }
