@@ -88,7 +88,7 @@ const tokenController = (req, res, next) => {
               firstName: userFound.firstName,
               lastName: userFound.lastName,
               email: userFound.email,
-              avatar: userFound.image,
+              image: userFound.image,
               isAdmin: userFound.roleId === 1,
             })
           : forbiddenError(res, "Failed in token authentication");
