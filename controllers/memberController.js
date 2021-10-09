@@ -38,11 +38,15 @@ const deleteMember = async (req, res, next) => {
 
 const updateMember = async (req, res, next) => {
   const id = req.params.id;
-  const payload = req.body
+  const payload = req.body;
 
   try {
     const updatedMember = await memberService.updateMember(id, payload);
-    res.json({ status: "ok", message: "Miembro actulizado correctamente.", data: updatedMember });
+    res.json({
+      status: "ok",
+      message: "Miembro actulizado correctamente.",
+      data: updatedMember,
+    });
   } catch (err) {
     next(err);
   }
