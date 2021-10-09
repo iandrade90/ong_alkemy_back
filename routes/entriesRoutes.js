@@ -21,7 +21,7 @@ router.get("/news/:id", tokenExists, isAdmin, getEntry);
 router.put("/news/:id", tokenExists, isAdmin, putNews);
 
 /* Crea una nueva entry de tipo news */
-router.post("/news", tokenExists, isAdmin, createValidation, postNews);
+router.post("/news", tokenExists, isAdmin, postNews);
 
 /* Elimina una entry especificada por su id */
 router.delete("/news/:id", tokenExists, isAdmin, deleteNews);

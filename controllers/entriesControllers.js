@@ -41,11 +41,11 @@ const putNews = async (req, res) => {
 };
 
 /* Crea una nueva novedad */
-const postNews = async (req, res) => {
+const postNews = async (req, res, next) => {
   try {
-    const error = validationResult(req);
+    // const error = validationResult(req);
 
-    if (!error.isEmpty()) res.status(200).json(error);
+    // if (!error.isEmpty()) res.status(200).json(error);
 
     params = {
       ...req.body,
@@ -55,7 +55,7 @@ const postNews = async (req, res) => {
     const newEntry = await createNews(params);
     !newEntry
       ? res.status(200).json({ message: "No se pudo crear la novedad" })
-      : res.status(200).json({ message: "¡Novedad creada con exito!" });
+      : res.status(200).json(params);
   } catch (error) {
     next(error);
   }

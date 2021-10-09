@@ -14,6 +14,6 @@ const createNews = (params) => entriesRepository.createPayload(entity, params);
 module.exports = {
   findByIdEntry,
   findByIdAndEditEntry,
-  // createNews,
+  createNews,
   deleteById
 };
