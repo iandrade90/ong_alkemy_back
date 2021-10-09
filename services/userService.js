@@ -22,3 +22,7 @@ exports.deleteUserById = id => {
 exports.getUsersList = async () => {
   return userRepository.findAll(entity);
 }
+
+exports.update = async (id, params) => {
+  return userRepository.updatePayload(entity, id, params);
+} 
