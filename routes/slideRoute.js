@@ -5,11 +5,10 @@ const { slideValidation } = require('../middlewares/slideMiddleware');
 
 router.get('/slides', slideController.getSlides);
 
-router.post('/slides/create', slideValidation, slideController.createSlide);
+router.post('/slides', slideValidation, slideController.createSlide);
 
-router.put('/slides/update/:id', slideValidation, slideController.updateSlide);
+router.put('/slides/:id', slideController.updateSlide);
 
-router.delete('/slides/delete/:id', slideController.deleteSlide);
-
+router.delete('/slides/:id', slideController.deleteSlide);
 
 module.exports = router;

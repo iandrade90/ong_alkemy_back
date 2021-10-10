@@ -18,14 +18,30 @@ exports.updateOrganization = async (req, res, next) => {
 
   const { id } = req.params
   const { name, phone, address, welcomeText } = req.body;
-  const { image } = req.files;
-  const payload = { key: image.name, buffer: image.data };
   try {
-    const { Location: imageUrl } = await uploadToBucket(payload);
-    const organizationUpdated = await Repository.updatePayload("Organization", id, { name: name, image: imageUrl, phone, address, welcomeText });
-    !organizationUpdated
-      ? res.status(200).json({ message: "No se encuentra la organización con ese ID." })
-      : res.status(200).json({ message: "Organización actualizada." });
+    const image = req.files?.image;
+    // console.log(image)
+    if (image) {
+      const payload = { key: image.name, buffer: image.data };
+      const { Location: imageUrl } = await uploadToBucket(payload);
+      const organizationUpdated = await Repository.updatePayload("Organization", id, {
+        name: name,
+        image: imageUrl,
+        phone, address, welcomeText
+      });
+      !organizationUpdated
+        ? res.status(200).json({ message: "No se encuentra la organización con ese ID." })
+        : res.status(200).json({ message: "Organización actualizada." });
+    } else {
+      const organizationUpdated = await Repository.updatePayload("Organization", id, {
+        name: name,
+        phone, address, welcomeText
+      });
+      !organizationUpdated
+        ? res.status(200).json({ message: "No se encuentra la organización con ese ID." })
+        : res.status(200).json({ message: "Organización actualizada." });
+    }
+
   } catch (error) {
     next(error);
   }
