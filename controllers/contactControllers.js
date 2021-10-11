@@ -27,3 +27,17 @@ exports.contactList = async (req,res,next) => {
     }
     
 }
+
+exports.deleteContact = async (req, res, next) => {
+    try {  
+        const id = req.params.id;
+        const contactDeleted = await Repository.deleteById("Contacts", id);
+
+        !contactDeleted
+        ? res.status(200).json({ message: "No se pudo eliminar el contacto seleccionado." })
+        : res.status(200).json({ message: "Contacto eliminado" });
+
+    } catch (error) {
+        next(error);
+    }
+};

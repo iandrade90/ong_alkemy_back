@@ -1,4 +1,4 @@
-const config = require("../config/config").development;
+const config = require('../config/config').development
 const Repositories = require('../repositories')
 const { uploadToBucket } = require('../services/S3')
 const testimonialService = require('../services/testimonialService')
@@ -12,7 +12,11 @@ const createTestimonial = async (req, res, next) => {
   try {
     const imageName = Date.now() + '_' + image?.name
     const imageUploadedPath = await uploadImageService(image, imageName)
-    const testimonialCreated = await testimonialService.create({ name, content, image: `${config.basePath}/static/${imageName}` })
+    const testimonialCreated = await testimonialService.create({
+      name,
+      content,
+      image: `${config.basePath}/static/${imageName}`,
+    })
     res.status(201).json({ status: 'ok', message: 'Testimonio creado correctamente.', data: testimonialCreated })
   } catch (error) {
     next(error)
@@ -22,7 +26,11 @@ const createTestimonial = async (req, res, next) => {
 const listTestimonials = async (req, res, next) => {
   try {
     const listTestimonials = await Repository.findAll('Testimonials')
-    res.status(201).json({ status: 'ok', message: 'Lista de testimonios.', data: listTestimonials })
+    res.status(201).json({
+      status: 'ok',
+      message: 'Lista de testimonios.',
+      data: listTestimonials,
+    })
   } catch (error) {
     next(error)
   }
@@ -32,7 +40,7 @@ const testimonial = async (req, res, next) => {
   const { id } = req.params
   try {
     const testimonial = await Repository.findById('Testimonials', id)
-    res.status(201).json({ status: 'ok', message: 'Testimonio.', data: testimonial })
+    res.status(201).json(testimonial)
   } catch (error) {
     next(error)
   }
@@ -42,14 +50,15 @@ const updateTestimonial = async (req, res, next) => {
   const { id } = req.params
   const { name, content } = req.body
   const { image } = req.files
-  const payload = { key: image.name, buffer: image.data }
 
   try {
-    const { Location: imageUrl } = await uploadToBucket(payload)
+    const imageName = Date.now() + '_' + image?.name
+    const imageUploadedPath = await uploadImageService(image, imageName)
+
     const testimonialUpdated = await Repository.updatePayload('Testimonials', id, {
       name: name,
       content: content,
-      image: imageUrl,
+      image: `${config.basePath}/static/${imageName}`,
     })
     !testimonialUpdated
       ? res.status(200).json({ message: 'No se encuentra el testimonio con ese ID.' })
@@ -71,4 +80,10 @@ const deleteTestimonial = async (req, res, next) => {
   }
 }
 
-module.exports = { createTestimonial, updateTestimonial, deleteTestimonial, listTestimonials, testimonial }
+module.exports = {
+  createTestimonial,
+  updateTestimonial,
+  deleteTestimonial,
+  listTestimonials,
+  testimonial,
+}

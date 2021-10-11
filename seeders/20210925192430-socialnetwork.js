@@ -8,16 +8,14 @@ module.exports = {
         {
           description: "Instagram",
           value: "SomosMás",
-          organizationId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date,
+          updatedAt: new Date,
         },
         {
           description: "Facebook",
           value: "Somos_Más",
-          organizationId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date,
+          updatedAt: new Date,
         },
       ],
       {}
