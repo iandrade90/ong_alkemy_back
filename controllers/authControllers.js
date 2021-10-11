@@ -44,6 +44,27 @@ const loginController = (req, res, next) => {
     .catch((error) => next(error));
 };
 
+const updateUser = async (req, res,next) => {
+  const { id } = req.params;
+  const newParams = req.body
+  try { 
+    const userUpdated = await userService.update(id, newParams);
+    res.status(200).json({
+      token: generateToken(userUpdated),
+      user: {
+        id: userUpdated.id,
+        firstName: userUpdated.firstName,
+        lastName: userUpdated.lastName,
+        email: userUpdated.email,
+        image: userUpdated.image,
+        isAdmin: userUpdated.roleId === 1,
+      }
+    })
+  } catch (error) {
+    next(error);
+  }
+}
+
 const registerController = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const newUser = { firstName, lastName, email, password };
@@ -85,6 +106,7 @@ const tokenController = (req, res, next) => {
       .then((userFound) => {
         userFound
           ? res.status(200).json({
+              id: userFound.id,
               firstName: userFound.firstName,
               lastName: userFound.lastName,
               email: userFound.email,
@@ -100,4 +122,5 @@ module.exports = {
   loginController,
   tokenController,
   registerController,
+  updateUser
 };
