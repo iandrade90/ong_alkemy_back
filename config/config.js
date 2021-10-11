@@ -12,8 +12,8 @@ module.exports = {
         "aws_bucket_name":process.env.AWS_BUCKET_NAME,
         "aws_access_key_id":process.env.AWS_ACCESS_KEY_ID,
         "aws_secret_access_key":process.env.AWS_SECRET_ACCESS_KEY,
-        "accesDevTokenMercadopago":process.env.ACCESS_DEV_TOKEN_MERCADOPAGO,
-        "publicDevKeyMercadopago":process.env.PUBLIC_DEV_KEY_MERCADOPAGO
+        "user_test_access_key":process.env.USER_TEST_ACCESS_TOKEN,
+        "user_test_public_key":process.env.USER_TEST_PUBLIC_KEY
     },
     "test": {
         "username": process.env.DB_USER,

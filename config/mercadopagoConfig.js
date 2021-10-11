@@ -4,7 +4,7 @@ const mercadopago = require ('mercadopago');
 
 // Agrega credenciales
 mercadopago.configure({
-    access_token : `${config.accesDevTokenMercadopago}`
+    access_token : `${config.accessDevTokenMercadopago}`
 });
 
 
