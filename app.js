@@ -18,6 +18,7 @@ const contactsRouter = require("./routes/contactsRoutes");
 const membersRoutes = require("./routes/membersRoutes");
 const categoriesRoutes = require("./routes/categoriesRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const donation = require('./routes/mercadopagoRoutes')
 
 const app = express();
 app.use(cors());
@@ -41,6 +42,7 @@ app.use("/api/v1/", [
   contactsRouter,
   categoriesRoutes,
   categoryRoutes,
+  donation
 ]);
 
 // catch 404 and forward to error handler
@@ -51,6 +53,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  console.log(err)
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 

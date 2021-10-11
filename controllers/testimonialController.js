@@ -5,14 +5,31 @@ const Repository = new Repositories();
 
 const createTestimonial = async (req, res, next) => {
   const { name, content } = req.body;
-  const { image } = req.files;
-  const payload = { key: image.name, buffer: image.data };
-
+  const { image } = req?.files;
+   const payload = { key: image?.name, buffer: image?.data };
   try {
     const { Location: imageUrl } = await uploadToBucket(payload);
     const testimonialCreated = await testimonialService.create({ name, content, image: imageUrl });
     res.status(201).json({ status: "ok", message: "Testimonio creado correctamente.", data: testimonialCreated });
+  } catch (error) {
+    next(error);
+  }
+};
 
+const listTestimonials = async (req, res, next) => {
+  try {
+    const listTestimonials = await Repository.findAll("Testimonials");
+    res.status(201).json({ status: "ok", message: "Lista de testimonios.", data: listTestimonials });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const testimonial = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const testimonial = await Repository.findById("Testimonials" , id);
+    res.status(201).json({ status: "ok", message: "Testimonio.", data: testimonial });
   } catch (error) {
     next(error);
   }
@@ -48,4 +65,4 @@ const deleteTestimonial = async (req, res, next) => {
   }
 };
 
-module.exports = { createTestimonial, updateTestimonial, deleteTestimonial };
+module.exports = { createTestimonial, updateTestimonial, deleteTestimonial , listTestimonials , testimonial };
