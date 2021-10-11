@@ -13,7 +13,8 @@ module.exports = {
         "aws_access_key_id":process.env.AWS_ACCESS_KEY_ID,
         "aws_secret_access_key":process.env.AWS_SECRET_ACCESS_KEY,
         "accesDevTokenMercadopago":process.env.ACCESS_DEV_TOKEN_MERCADOPAGO,
-        "publicDevKeyMercadopago":process.env.PUBLIC_DEV_KEY_MERCADOPAGO
+        "publicDevKeyMercadopago":process.env.PUBLIC_DEV_KEY_MERCADOPAGO,
+        "basePath":process.env.BASEPATH
     },
     "test": {
         "username": process.env.DB_USER,
