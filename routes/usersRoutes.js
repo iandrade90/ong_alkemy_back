@@ -5,7 +5,7 @@ const { tokenExists } = require("../middlewares/token");
 const { isAdmin } = require("../middlewares/auth");
 
 /* GET users listing. */
-router.delete("/users/:id", [tokenExists, isAdmin], deleteUser);
+router.delete("/users/:id", [tokenExists], deleteUser);
 router.get("/users", [tokenExists, isAdmin], usersList);
 router.put("/users/:id", [tokenExists, isAdmin], updateUser);
 
