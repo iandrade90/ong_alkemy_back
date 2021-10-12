@@ -18,7 +18,7 @@ router.get("/news", getNews);
 router.get("/news/:id", tokenExists, isAdmin, getEntry);
 
 /* Edita una entry especificada por su id */
-router.put("/news/:id", tokenExists, isAdmin, putNews);
+router.put("/news/:id", [tokenExists, isAdmin], putNews);
 
 /* Crea una nueva entry de tipo news */
 router.post("/news", tokenExists, isAdmin, postNews);
