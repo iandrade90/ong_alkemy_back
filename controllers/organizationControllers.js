@@ -2,6 +2,8 @@ const { findOrganizationById } = require("../services/organizationsService");
 const { uploadToBucket } = require("../services/S3");
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
+const config = require('../config/config').development
+const { uploadImageService } = require('../services/upliadImages')
 
 exports.findPublicOrganizations = async (req, res, next) => {
   const { id } = req.params;
@@ -19,14 +21,15 @@ exports.updateOrganization = async (req, res, next) => {
   const { id } = req.params
   const { name, phone, address, welcomeText } = req.body;
   try {
+
     const image = req.files?.image;
     // console.log(image)
     if (image) {
-      const payload = { key: image.name, buffer: image.data };
-      const { Location: imageUrl } = await uploadToBucket(payload);
+      const imageName = Date.now() + '_' + image?.name
+      const imageUploadedPath = await uploadImageService(image, imageName)
       const organizationUpdated = await Repository.updatePayload("Organization", id, {
         name: name,
-        image: imageUrl,
+        image: `${config.basePath}/static/${imageName}`,
         phone, address, welcomeText
       });
       !organizationUpdated

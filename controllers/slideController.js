@@ -2,6 +2,8 @@ const { Slide } = require('../models');
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
 const { uploadToBucket } = require("../services/S3");
+const config = require('../config/config').development
+const { uploadImageService } = require('../services/upliadImages')
 
 exports.getSlides = async function (req, res, next) {
    try {
@@ -24,22 +26,17 @@ exports.createSlide = async function (req, res, next) {
 }
 
 exports.updateSlide = async (req, res, next) => {
-
    const { id } = req.params
-
    const { text, order, organizationId } = req.body;
-   console.log(text, order, organizationId)
-
    try {
-      const imageUrl = req.files?.imageUrl;
+      const image = req.files?.imageUrl;
 
-      console.log(imageUrl)
-      if (imageUrl) {
-         const payload = { key: imageUrl.name, buffer: imageUrl.data };
-         const { Location: imageUrl2 } = await uploadToBucket(payload);
+      if (image) {
+         const imageName = Date.now() + '_' + image?.name
+         const imageUploadedPath = await uploadImageService(image, imageName)
          const slideUpdated = await Repository.updatePayload("Slide", id, {
             text: text,
-            imageUrl: imageUrl2,
+            imageUrl: `${config.basePath}/static/${imageName}`,
             order: order, organizationId: organizationId
          });
          !slideUpdated
