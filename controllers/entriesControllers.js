@@ -1,6 +1,4 @@
-const {
-  customValidationResult: validationResult,
-} = require("../middlewares/commons");
+const config = require("../config/config").development;
 const AllRepository = require("../repositories");
 const Repository = new AllRepository();
 const {
@@ -9,6 +7,7 @@ const {
   createNews,
   deleteById,
 } = require("../services/entriesService");
+const { uploadImageService } = require("../services/upliadImages");
 
 const entity = "Entries";
 
@@ -29,12 +28,31 @@ const getNews = async (req, res, next) => {
 };
 
 /* Edita una nueva novedad y la devuelve editada */
-const putNews = async (req, res) => {
+const putNews = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, content, type } = req.body;
+  const { image } = req.files;
+  console.log("imagen", image);
+
   try {
-    const entry = await findByIdAndEditEntry(req.params.id, req.body);
-    !entry
-      ? res.status(200).json({ message: "No existen entradas con ese ID" })
-      : res.status(200).json(entry);
+    const imageName = Date.now() + "_" + image?.name;
+    const imageUploadedPath = await uploadImageService(image, imageName);
+
+    const entryUpdated = await Repository.updatePayload(entity, id, {
+      name,
+      content,
+      type,
+      image: `${config.basePath}/static/${imageName}`,
+    });
+    !entryUpdated
+      ? res
+          .status(200)
+          .json({ message: "No se encuentra el testimonio con ese ID." })
+      : res.status(200).json({
+          status: "ok",
+          message: "Testimonio actualizado.",
+          data: entryUpdated,
+        });
   } catch (error) {
     next(error);
   }
@@ -42,20 +60,23 @@ const putNews = async (req, res) => {
 
 /* Crea una nueva novedad */
 const postNews = async (req, res, next) => {
+  const { name, content, type } = req.body;
+  const { image } = req.files;
+
   try {
-    // const error = validationResult(req);
-
-    // if (!error.isEmpty()) res.status(200).json(error);
-
-    params = {
-      ...req.body,
-      type: "news",
-    };
-
-    const newEntry = await createNews(params);
-    !newEntry
-      ? res.status(200).json({ message: "No se pudo crear la novedad" })
-      : res.status(200).json(params);
+    const imageName = Date.now() + "_" + image?.name;
+    const imageUploadedPath = await uploadImageService(image, imageName);
+    const newEntry = await createNews({
+      name,
+      content,
+      image: `${config.basePath}/static/${imageName}`,
+      type: "News",
+    });
+    res.status(201).json({
+      status: "ok",
+      message: "Novedad creada correctamente.",
+      data: newEntry,
+    });
   } catch (error) {
     next(error);
   }

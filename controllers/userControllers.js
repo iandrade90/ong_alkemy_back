@@ -27,7 +27,6 @@ const usersList = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   const newParams = req.body;
-  console.log(newParams, id);
 
   try {
     const userUpdated = await userService.update(id, newParams);
