@@ -32,7 +32,6 @@ const putNews = async (req, res, next) => {
   const { id } = req.params;
   const { name, content, type } = req.body;
   const { image } = req.files;
-  console.log("imagen", image);
 
   try {
     const imageName = Date.now() + "_" + image?.name;

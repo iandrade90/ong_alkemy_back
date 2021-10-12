@@ -1,8 +1,10 @@
+const config = require("../config/config").development;
 const authService = require("../services/authService");
 const userService = require("../services/userService");
 const { generateToken, decryptToken } = require("../services/tokenService");
 const bcrypt = require("bcrypt");
 const { EmailSendgrid } = require("../services/sendgrid");
+const { uploadImageService } = require("../services/upliadImages");
 
 const forbiddenMsg = (res, msg) => {
   return res.status(401).json(msg);
@@ -14,11 +16,11 @@ const loginController = (req, res, next) => {
   authService
     .findUserByEmail(email)
 
-    .then((userFound) => {
+    .then(userFound => {
       userFound
         ? bcrypt
             .compare(reqPassword, userFound.password)
-            .then((passwordMatch) => {
+            .then(passwordMatch => {
               passwordMatch
                 ? res.status(200).json({
                     token: generateToken(userFound),
@@ -41,14 +43,23 @@ const loginController = (req, res, next) => {
             "Failed in authentication, wrong email or password"
           );
     })
-    .catch((error) => next(error));
+    .catch(error => next(error));
 };
 
-const updateUser = async (req, res,next) => {
+const updateUser = async (req, res, next) => {
   const { id } = req.params;
-  const newParams = req.body
-  try { 
-    const userUpdated = await userService.update(id, newParams);
+  const { firstName, lastName } = req.body;
+  const { image } = req.files;
+
+  try {
+    const imageName = Date.now() + "_" + image?.name;
+    const imageUploadedPath = await uploadImageService(image, imageName);
+
+    const userUpdated = await userService.update(id, {
+      firstName,
+      lastName,
+      image: `${config.basePath}/static/${imageName}`,
+    });
     res.status(200).json({
       token: generateToken(userUpdated),
       user: {
@@ -58,12 +69,12 @@ const updateUser = async (req, res,next) => {
         email: userUpdated.email,
         image: userUpdated.image,
         isAdmin: userUpdated.roleId === 1,
-      }
-    })
+      },
+    });
   } catch (error) {
     next(error);
   }
-}
+};
 
 const registerController = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
@@ -73,7 +84,7 @@ const registerController = async (req, res, next) => {
 
     const responseRegister = await authService
       .findUserByEmail(newUser.email)
-      .then((userFound) => {
+      .then(userFound => {
         console.log(userFound);
         return {
           id: userFound.id,
@@ -103,7 +114,7 @@ const tokenController = (req, res, next) => {
   id &&
     authService
       .findUserById(id)
-      .then((userFound) => {
+      .then(userFound => {
         userFound
           ? res.status(200).json({
               id: userFound.id,
@@ -115,12 +126,12 @@ const tokenController = (req, res, next) => {
             })
           : forbiddenError(res, "Failed in token authentication");
       })
-      .catch((error) => next(error));
+      .catch(error => next(error));
 };
 
 module.exports = {
   loginController,
   tokenController,
   registerController,
-  updateUser
+  updateUser,
 };
