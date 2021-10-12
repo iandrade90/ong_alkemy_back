@@ -29,7 +29,7 @@ const getNews = async (req, res, next) => {
 };
 
 /* Edita una nueva novedad y la devuelve editada */
-const putNews = async (req, res) => {
+const putNews = async (req, res, next) => {
   try {
     const entry = await findByIdAndEditEntry(req.params.id, req.body);
     !entry
